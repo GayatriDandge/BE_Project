@@ -108,3 +108,13 @@ elif menu == "Reports":
 
 elif menu == "Alerts":
     alerts.show()
+
+
+# ------------------ STORE HISTORY (REAL-TIME EFFECT) ------------------
+def update_history(key, value):
+    # Ensure the key exists before appending
+    if key not in st.session_state:
+        st.session_state[key] = []
+    st.session_state[key].append(value)
+    if len(st.session_state[key]) > 60:
+        st.session_state[key].pop(0)
