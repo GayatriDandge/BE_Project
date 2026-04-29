@@ -144,8 +144,7 @@ def show():
 
             if col3.button("View Details", key=f"btn_{i}"):
                 st.session_state["selected_patient"] = p["name"]
-                st.session_state["page"] = "Patient Details"
-                st.session_state["main_navigation"] = "Patient Details"  # Add this line
+                st.query_params["page"] = "Patient Details"
                 st.rerun()
 
         # OTHER PATIENTS
