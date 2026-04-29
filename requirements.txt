@@ -1,0 +1,6 @@
+streamlit
+pymongo
+matplotlib
+numpy
+streamlit-autorefresh
+reportlab
