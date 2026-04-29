@@ -70,44 +70,51 @@ pages = [
     "Alerts"
 ]
 
-# safe index handling
-if st.session_state.page not in pages:
-    st.session_state.page = "Dashboard"
-
+# Get page from query params first, fallback to session state
 params = st.query_params
 if "page" in params and params["page"] in pages:
-    default_index = pages.index(params["page"])
+    current_page = params["page"]
+elif st.session_state.page in pages:
+    current_page = st.session_state.page
 else:
-    default_index = 0
+    current_page = "Dashboard"
 
+default_index = pages.index(current_page)
+
+# Sidebar radio for user clicks (optional - for UX)
 menu = st.sidebar.radio("Navigation", pages, index=default_index, key="main_navigation")
 
-st.session_state.page = menu
+# Update query params when radio is clicked
+if menu != current_page:
+    st.query_params["page"] = menu
+
+# Use current_page for routing (not menu!)
+st.session_state.page = current_page
 
 
 # ------------------- ROUTING -------------------
-if menu == "Dashboard":
+if current_page == "Dashboard":
     dashboard.show()
 
-elif menu == "Patient Details":
+elif current_page == "Patient Details":
     patient_details.show()
 
-elif menu == "Live Monitoring":
+elif current_page == "Live Monitoring":
     live_monitoring.show()
 
-elif menu == "Trend Analysis":
+elif current_page == "Trend Analysis":
     trend_analysis.show()
 
-elif menu == "Risk Analysis":
+elif current_page == "Risk Analysis":
     risk_analysis.show()
 
-elif menu == "Treatment Plan":
+elif current_page == "Treatment Plan":
     treatment_plan.show()
 
-elif menu == "Reports":
+elif current_page == "Reports":
     reports.show()
 
-elif menu == "Alerts":
+elif current_page == "Alerts":
     alerts.show()
 
 
