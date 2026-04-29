@@ -74,12 +74,13 @@ pages = [
 if st.session_state.page not in pages:
     st.session_state.page = "Dashboard"
 
-menu = st.sidebar.radio(
-    "Navigation",
-    pages,
-    index=pages.index(st.session_state.page),
-    key="main_navigation"
-)
+params = st.query_params
+if "page" in params and params["page"] in pages:
+    default_index = pages.index(params["page"])
+else:
+    default_index = 0
+
+menu = st.sidebar.radio("Navigation", pages, index=default_index, key="main_navigation")
 
 st.session_state.page = menu
 
